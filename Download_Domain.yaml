@@ -1,11 +1,11 @@
 payload:
-  - DOMAIN-SUFFIX,githubusercontent.com  # Github下载
-  - DOMAIN,ev.phncdn.com                 # Pornhub下载
-  - DOMAIN,cn.pornhub.com                # Pornhub下载
-  - DOMAIN,video.twimg.com               # X下载
-  - DOMAIN,h1.gzankun.com                # JavDB下载
-  - DOMAIN-SUFFIX,javdb.com              # JavDB网页
-  - DOMAIN,api.videocaptioner.cn         # AI-api
-  - DOMAIN-SUFFIX,xethub.hf.co           # Hugging Face下载
-  - DOMAIN-KEYWORD,civitai-delivery-worker-prod  # Civitai下载
-  - DOMAIN-SUFFIX,civitai.com            # Civitai下载
+  - DOMAIN-SUFFIX,githubusercontent.com
+  - DOMAIN,ev.phncdn.com
+  - DOMAIN,cn.pornhub.com
+  - DOMAIN,video.twimg.com
+  - DOMAIN,h1.gzankun.com
+  - DOMAIN,api.videocaptioner.cn
+  - DOMAIN-SUFFIX,javdb.com
+  - DOMAIN-SUFFIX,xethub.hf.co
+  - DOMAIN-SUFFIX,civitai.com
+  - DOMAIN-KEYWORD,civitai-delivery-worker-prod
