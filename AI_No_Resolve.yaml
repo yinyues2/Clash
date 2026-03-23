@@ -1,0 +1,109 @@
+payload:
+  # NAME: Claude
+  - DOMAIN,cdn.usefathom.com
+  - DOMAIN-SUFFIX,anthropic.com
+  - DOMAIN-SUFFIX,claude.ai
+
+  # NAME: OpenAI
+  - DOMAIN,browser-intake-datadoghq.com
+  - DOMAIN,chat.openai.com.cdn.cloudflare.net
+  - DOMAIN,openai-api.arkoselabs.com
+  - DOMAIN,openaicom-api-bdcpf8c6d2e9atf6.z01.azurefd.net
+  - DOMAIN,openaicomproductionae4b.blob.core.windows.net
+  - DOMAIN,production-openaicom-storage.azureedge.net
+  - DOMAIN,static.cloudflareinsights.com
+  - DOMAIN-SUFFIX,ai.com
+  - DOMAIN-SUFFIX,algolia.net
+  - DOMAIN-SUFFIX,api.statsig.com
+  - DOMAIN-SUFFIX,auth0.com
+  - DOMAIN-SUFFIX,chatgpt.com
+  - DOMAIN-SUFFIX,chatgpt.livekit.cloud
+  - DOMAIN-SUFFIX,client-api.arkoselabs.com
+  - DOMAIN-SUFFIX,events.statsigapi.net
+  - DOMAIN-SUFFIX,featuregates.org
+  - DOMAIN-SUFFIX,host.livekit.cloud
+  - DOMAIN-SUFFIX,identrust.com
+  - DOMAIN-SUFFIX,intercom.io
+  - DOMAIN-SUFFIX,intercomcdn.com
+  - DOMAIN-SUFFIX,launchdarkly.com
+  - DOMAIN-SUFFIX,oaistatic.com
+  - DOMAIN-SUFFIX,oaiusercontent.com
+  - DOMAIN-SUFFIX,observeit.net
+  - DOMAIN-SUFFIX,openai.com
+  - DOMAIN-SUFFIX,openaiapi-site.azureedge.net
+  - DOMAIN-SUFFIX,openaicom.imgix.net
+  - DOMAIN-SUFFIX,segment.io
+  - DOMAIN-SUFFIX,sentry.io
+  - DOMAIN-SUFFIX,stripe.com
+  - DOMAIN-SUFFIX,turn.livekit.cloud
+  - DOMAIN-KEYWORD,openai
+
+  # NAME: Grok
+  - DOMAIN-SUFFIX,x.ai
+  - DOMAIN-SUFFIX,grok.com
+  - DOMAIN-SUFFIX,featureassets.org
+  - DOMAIN-SUFFIX,xai.chronosphere.io
+
+  # NAME: Gemini
+   # Google DeepMind
+  - DOMAIN-SUFFIX,deepmind.com
+  - DOMAIN-SUFFIX,deepmind.google
+
+   # Google Generative Language API
+  - DOMAIN-SUFFIX,geller-pa.googleapis.com
+  - DOMAIN-SUFFIX,generativelanguage.googleapis.com
+  - DOMAIN-SUFFIX,proactivebackend-pa.googleapis.com
+  - DOMAIN-SUFFIX,www.googleapis.com
+  - DOMAIN-SUFFIX,maps.googleapis.com
+  - DOMAIN-SUFFIX,fonts.googleapis.com
+  - DOMAIN-SUFFIX,jnn-pa.googleapis.com
+  - DOMAIN-SUFFIX,optimizationguide-pa.googleapis.com
+  - DOMAIN-SUFFIX,streetviewpixels-pa.googleapis.com
+  - DOMAIN-SUFFIX,content-autofill.googleapis.com
+  - DOMAIN-SUFFIX,robinfrontend-pa.googleapis.com
+
+   # Google CDN
+  - DOMAIN-SUFFIX,www.gstatic.com
+  - DOMAIN-SUFFIX,fonts.gstatic.com
+  - DOMAIN-SUFFIX,ssl.gstatic.com
+  - DOMAIN-SUFFIX,maps.gstatic.com
+  - DOMAIN-SUFFIX,encrypted-tbn0.gstatic.com
+  - DOMAIN-SUFFIX,encrypted-tbn1.gstatic.com
+  - DOMAIN-SUFFIX,encrypted-tbn2.gstatic.com
+  - DOMAIN-SUFFIX,encrypted-tbn3.gstatic.com
+
+   # Google AI Studio
+  - DOMAIN-SUFFIX,ai.google.dev
+  - DOMAIN-SUFFIX,alkalicore-pa.clients6.google.com
+  - DOMAIN-SUFFIX,alkalimakersuite-pa.clients6.google.com
+  - DOMAIN-SUFFIX,webchannel-alkalimakersuite-pa.clients6.google.com
+  - DOMAIN-SUFFIX,ogads-pa.clients6.google.com
+  - DOMAIN-SUFFIX,waa-pa.clients6.google.com
+  - DOMAIN-SUFFIX,makersuite.google.com
+  - DOMAIN-SUFFIX,apis.google.com
+  - DOMAIN-SUFFIX,aistudio.google.com
+  - DOMAIN-SUFFIX,bard.google.com
+  - DOMAIN-SUFFIX,lh3.google.com
+  - DOMAIN-SUFFIX,ogs.google.com
+  - DOMAIN-SUFFIX,generativeai.google
+
+   # Google Gemini
+  - DOMAIN-SUFFIX,gemini.google
+  - DOMAIN-SUFFIX,gemini.google.com
+
+   # Gemini app firewall hosts
+  - DOMAIN-SUFFIX,www.google-analytics.com
+  - DOMAIN-SUFFIX,static.doubleclick.net
+  - DOMAIN-SUFFIX,td.doubleclick.net
+  - DOMAIN-SUFFIX,lh5.googleusercontent.com
+  - DOMAIN-SUFFIX,lh3.googleusercontent.com
+  - DOMAIN-SUFFIX,csp.withgoogle.com
+  - DOMAIN-SUFFIX,www.googletagmanager.com
+  - DOMAIN-SUFFIX,googleads.g.doubleclick.net
+  - DOMAIN-SUFFIX,i.ytimg.com
+  - DOMAIN-SUFFIX,yt3.ggpht.com
+
+  - IP-CIDR,24.199.123.28/32,no-resolve
+  - IP-CIDR,64.23.132.171/32,no-resolve
+  - IP-CIDR,17.253.4.125,no-resolve
+  - IP-ASN,20473,no-resolve
