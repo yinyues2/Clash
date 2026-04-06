@@ -9,3 +9,4 @@ payload:
   - DOMAIN-SUFFIX,xethub.hf.co
   - DOMAIN-SUFFIX,civitai.com
   - DOMAIN-KEYWORD,civitai-delivery-worker-prod
+  - DOMAIN-SUFFIX,steamcontent.com
