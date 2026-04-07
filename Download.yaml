@@ -8,5 +8,4 @@ payload:
   - DOMAIN-SUFFIX,javdb.com
   - DOMAIN-SUFFIX,xethub.hf.co
   - DOMAIN-SUFFIX,civitai.com
-  - DOMAIN-SUFFIX,steamcontent.com
   - DOMAIN-KEYWORD,civitai-delivery-worker-prod
