@@ -1,4 +1,4 @@
 payload:
   - DOMAIN-SUFFIX,adguard.org           # ADGUARD过滤插件
   - DOMAIN-SUFFIX,steamcontent.com      # steam下载
-
+  - DOMAIN-SUFFIX,videocaptioner.cn     # videocaptioner api
