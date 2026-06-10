@@ -1,3 +1,4 @@
 payload:
-  - DOMAIN-SUFFIX,steamcontent.com
   - DOMAIN-SUFFIX,adguard.org
+  - DOMAIN-SUFFIX,steamcontent.com
+
