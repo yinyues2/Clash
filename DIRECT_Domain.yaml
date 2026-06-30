@@ -2,3 +2,5 @@ payload:
   - DOMAIN-SUFFIX,adguard.org           # ADGUARD过滤插件
   - DOMAIN-SUFFIX,steamcontent.com      # steam下载
   - DOMAIN-SUFFIX,videocaptioner.cn     # videocaptioner api
+  - DOMAIN-SUFFIX,5eplaycdn.com         # 5E game
+  - DOMAIN-SUFFIX,5eplay.com            # 5E game
