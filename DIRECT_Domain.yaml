@@ -5,3 +5,4 @@ payload:
   - DOMAIN-SUFFIX,5eplaycdn.com         # 5E game
   - DOMAIN-SUFFIX,5eplay.com            # 5E game
   - DOMAIN-SUFFIX,ngrok-free.dev        # Open WebUI
+  - DOMAIN-SUFFIX,asrootu.cn            # Open WebUI
