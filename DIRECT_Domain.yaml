@@ -12,3 +12,5 @@ payload:
   - DOMAIN-SUFFIX,shcdn.xyz             # Shanhai
   - DOMAIN-SUFFIX,duoyi.com             # duoyi
   - DOMAIN-SUFFIX,2980.com              # duoyi
+  - DOMAIN-SUFFIX,tailscale.com         # tailscale
+  - DOMAIN-SUFFIX,tailscale.io          # tailscale
