@@ -13,6 +13,3 @@ payload:
   - DOMAIN-SUFFIX,duoyi.com             # duoyi
   - DOMAIN-SUFFIX,2980.com              # duoyi
   - DOMAIN-SUFFIX,tailscale.com         # tailscale
-  - DOMAIN-SUFFIX,xiaohongshu.com       # 小红书
-  - DOMAIN-SUFFIX,xhscdn.com            # 小红书
-  - DOMAIN-SUFFIX,xhscdn.net            # 小红书
