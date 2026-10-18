@@ -6,6 +6,7 @@ payload:
   - DOMAIN,video.twimg.com
   - DOMAIN,h1.gzankun.com
   - DOMAIN-SUFFIX,javdb.com
+  - DOMAIN-SUFFIX,jdbstatic.com
   - DOMAIN-SUFFIX,xethub.hf.co
   - DOMAIN-SUFFIX,civitai.com
   - DOMAIN-KEYWORD,civitai-delivery-worker-prod
