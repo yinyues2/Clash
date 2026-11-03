@@ -2,8 +2,8 @@ name: Sync AI rules
 
 on:
   schedule:
-    # 00:17 UTC = 08:17 Asia/Shanghai, every day.
-    - cron: '17 0 * * *'
+    # 17:00 UTC = 01:00 Asia/Shanghai on the following day.
+    - cron: '0 17 * * *'
   workflow_dispatch:
   push:
     branches:
@@ -61,18 +61,18 @@ jobs:
       - name: Generate AI rules
         run: python scripts/sync_ai_rules.py
 
-      - name: Commit and push only a changed AI rules file
+      - name: Commit and push changed AI rules outputs
         timeout-minutes: 3
         run: |
           set -euo pipefail
-          output_file=AI_No_Resolve.yaml
+          output_files=(AI_No_Resolve.yaml Surge/AI.list)
 
-          git add -- "$output_file"
-          if git diff --cached --quiet -- "$output_file"; then
+          git add -- "${output_files[@]}"
+          if git diff --cached --quiet -- "${output_files[@]}"; then
             printf '%s\n' 'AI rules are unchanged; no commit was created.' >> "$GITHUB_STEP_SUMMARY"
             exit 0
           fi
-          git diff --cached --check -- "$output_file"
+          git diff --cached --check -- "${output_files[@]}"
 
           # Never publish a result generated from a superseded main branch.
           git fetch --no-tags origin refs/heads/main
@@ -83,9 +83,9 @@ jobs:
 
           git -c user.name='github-actions[bot]' \
             -c user.email='41898282+github-actions[bot]@users.noreply.github.com' \
-            commit --only -m 'chore: update AI rules' -- "$output_file"
+            commit --only -m 'chore: update AI rules' -- "${output_files[@]}"
 
           # A concurrent push or branch protection must fail normally.
           # Do not force-push or rebase a result generated from older inputs.
           git push origin HEAD:refs/heads/main
-          printf '%s\n' 'Updated AI_No_Resolve.yaml on main.' >> "$GITHUB_STEP_SUMMARY"
+          printf '%s\n' 'Updated AI_No_Resolve.yaml and Surge/AI.list on main.' >> "$GITHUB_STEP_SUMMARY"

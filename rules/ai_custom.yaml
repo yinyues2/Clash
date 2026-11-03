@@ -1,16 +1,13 @@
 # Manual additions retained from the original AI_No_Resolve.yaml.
 # Upstream-managed entries live in the sources listed in ai_sources.json.
+# Exact duplicates covered by the expanded upstreams were removed on 2026-11-04.
 payload:
   # NAME: Grok
-  - DOMAIN-SUFFIX,x.ai
-  - DOMAIN-SUFFIX,grok.com
   - DOMAIN-SUFFIX,featureassets.org
   - DOMAIN-SUFFIX,xai.chronosphere.io
 
   # NAME: Gemini
   # Google Generative Language API
-  - DOMAIN-SUFFIX,geller-pa.googleapis.com
-  - DOMAIN-SUFFIX,generativelanguage.googleapis.com
   - DOMAIN-SUFFIX,www.googleapis.com
   - DOMAIN-SUFFIX,maps.googleapis.com
   - DOMAIN-SUFFIX,fonts.googleapis.com
@@ -18,7 +15,6 @@ payload:
   - DOMAIN-SUFFIX,optimizationguide-pa.googleapis.com
   - DOMAIN-SUFFIX,streetviewpixels-pa.googleapis.com
   - DOMAIN-SUFFIX,content-autofill.googleapis.com
-  - DOMAIN-SUFFIX,robinfrontend-pa.googleapis.com
 
   # Google CDN
   - DOMAIN-SUFFIX,www.gstatic.com
@@ -37,13 +33,8 @@ payload:
   - DOMAIN-SUFFIX,webchannel-alkalimakersuite-pa.clients6.google.com
   - DOMAIN-SUFFIX,ogads-pa.clients6.google.com
   - DOMAIN-SUFFIX,waa-pa.clients6.google.com
-  - DOMAIN-SUFFIX,makersuite.google.com
-  - DOMAIN-SUFFIX,aistudio.google.com
   - DOMAIN-SUFFIX,lh3.google.com
   - DOMAIN-SUFFIX,ogs.google.com
-
-  # Google Gemini
-  - DOMAIN-SUFFIX,gemini.google
 
   # Gemini app firewall hosts
   - DOMAIN-SUFFIX,www.google-analytics.com
@@ -66,7 +57,6 @@ payload:
   - DOMAIN-SUFFIX,atmeta.com
   - DOMAIN-SUFFIX,llama.com
   - DOMAIN-SUFFIX,llamameta.net
-  - DOMAIN-SUFFIX,meta.ai
   - DOMAIN-SUFFIX,metaaiusercontent.com
   - DOMAIN-SUFFIX,metaaivm.com
   - DOMAIN-SUFFIX,muse.ai
