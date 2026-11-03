@@ -6,18 +6,21 @@
 https://raw.githubusercontent.com/yinyues2/Clash/main/AI_No_Resolve.yaml
 ```
 
-该文件供 Clash / Mihomo 的 `behavior: classical`、`format: yaml` 规则集使用。Surge 订阅地址为：
+该文件供 Clash / Mihomo 的 `behavior: classical`、`format: yaml` 规则集使用。Surge 沿用正在使用的原订阅地址：
 
 ```text
-https://raw.githubusercontent.com/yinyues2/Clash/main/Surge/AI.list
+https://raw.githubusercontent.com/yinyues2/surge/main/AI.list
 ```
+
+本仓库的 `Surge/AI.list` 是生成产物，由 [yinyues2/surge](https://github.com/yinyues2/surge) 的同步工作流校验并发布到根目录 `AI.list`，无需更换客户端已有的 Surge 订阅链接。
 
 GitHub 更新文件后，客户端仍按自己的规则集刷新周期拉取；需要立即使用新规则时，可在客户端手动更新规则集。
 
 ## 运行时间与触发方式
 
 - **每天北京时间 01:00**：GitHub 工作流使用 UTC cron `0 17 * * *`，拉取、合并并提交两种格式。
-- **每天北京时间 02:00**：另外配置的 ChatGPT 计划任务检查工作流及两份输出，必要时在既有授权范围内补救。该检查任务不在本仓库运行。
+- **每天北京时间 01:20**：`yinyues2/surge` 的镜像工作流读取本仓库生成结果，校验 Clash/Surge 规则集合一致、检查异常减少后，更新原地址的 `AI.list`。两仓库各使用自己的 GitHub Token，不需要跨仓库 PAT。
+- **每天北京时间 02:00**：另外配置的 ChatGPT 计划任务检查两个仓库的工作流及规则，确认 Surge 原地址已同步，必要时在既有授权范围内补救。该检查任务不在本仓库运行。
 - **手动运行**：打开仓库 **Actions → Sync AI rules → Run workflow**，选择 `main`。
 - **修改同步配置后自动运行**：向 `main` 推送上游清单、自定义规则、同步脚本、依赖、测试或该工作流的改动时触发。
 
@@ -81,7 +84,7 @@ ChatGPT 检查任务正常成功时静默；遇到无法安全修复、需要处
 在 Surge 的 `[Rule]` 中引用：
 
 ```ini
-RULE-SET,https://raw.githubusercontent.com/yinyues2/Clash/main/Surge/AI.list,AI,no-resolve
+RULE-SET,https://raw.githubusercontent.com/yinyues2/surge/main/AI.list,AI,no-resolve
 ```
 
 `AI` 指自己的已有策略/策略组，按实际名称替换，并保留原有规则优先级。外部文件为纯文本，每行一条规则，不含 `payload:`、YAML 列表前缀或策略目标。IPv6 保留 `IP-CIDR6`，ASN 使用 `IP-ASN`，IP 类规则统一保留一个 `no-resolve`。参见 [Surge RULE-SET](https://manual.nssurge.com/rules/ruleset.html) 和 [IP 规则](https://manual.nssurge.com/rules/ip.html)。
