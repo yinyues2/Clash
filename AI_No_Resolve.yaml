@@ -103,6 +103,20 @@ payload:
   - DOMAIN-SUFFIX,i.ytimg.com
   - DOMAIN-SUFFIX,yt3.ggpht.com
 
+  # Meta AI
+  - DOMAIN,ai.developer.meta.com
+  - DOMAIN,ai.meta.com
+  - DOMAIN,aidemos.meta.com
+  - DOMAIN,developer.meta.com
+  - DOMAIN,llama.developer.meta.com
+  - DOMAIN-SUFFIX,atmeta.com
+  - DOMAIN-SUFFIX,llama.com
+  - DOMAIN-SUFFIX,llamameta.net
+  - DOMAIN-SUFFIX,meta.ai
+  - DOMAIN-SUFFIX,metaaiusercontent.com
+  - DOMAIN-SUFFIX,metaaivm.com
+  - DOMAIN-SUFFIX,muse.ai
+
   - IP-CIDR,24.199.123.28/32,no-resolve
   - IP-CIDR,64.23.132.171/32,no-resolve
   - IP-CIDR,17.253.4.125/32,no-resolve
