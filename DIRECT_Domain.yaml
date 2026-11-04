@@ -11,5 +11,4 @@ payload:
   - DOMAIN-SUFFIX,duoyi.com             # duoyi
   - DOMAIN-SUFFIX,2980.com              # duoyi
   - DOMAIN-SUFFIX,tailscale.com         # tailscale
-  - DOMAIN-SUFFIX,asrootu.si            # own
   - DOMAIN-SUFFIX,kuromi.si             # own
