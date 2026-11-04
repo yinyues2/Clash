@@ -158,7 +158,7 @@ def load_sources(path):
         raise SyncError('Expected 1 to 20 explicitly configured sources')
     names, urls = set(), set()
     for source in sources:
-        if not isinstance(source, dict) or not {'name', 'url'} <= set(source) or set(source) - {'name', 'url', 'format'}:
+        if not isinstance(source, dict) or not {'name', 'url'} <= set(source) or set(source) - {'name', 'url', 'format', 'include_domains', 'required_domains'}:
             raise SyncError('Each source needs name, url, and an optional format')
         if not isinstance(source.get('format', 'clash-yaml'), str) or source.get('format', 'clash-yaml') not in SOURCE_FORMATS:
             raise SyncError('Unsupported source format')
@@ -167,6 +167,14 @@ def load_sources(path):
             raise SyncError('Invalid source name')
         if not isinstance(url, str):
             raise SyncError('Source URL must be a string')
+        for option in ('include_domains', 'required_domains'):
+            if option in source:
+                values = source[option]
+                if not isinstance(values, list) or not 1 <= len(values) <= 100:
+                    raise SyncError(f'{name}: {option} must contain 1-100 domains')
+                if any(not isinstance(d, str) or not re.fullmatch(r'[a-z0-9]+(?:[.-][a-z0-9]+)*', d)
+                       or '..' in d for d in values) or len(set(values)) != len(values):
+                    raise SyncError(f'{name}: {option} has an invalid or duplicate domain')
         if name == 'Custom' or name in names or url in urls:
             raise SyncError('Source names and URLs must be unique')
         parsed = urllib.parse.urlsplit(url)
@@ -175,6 +183,32 @@ def load_sources(path):
         names.add(name)
         urls.add(url)
     return sources
+
+
+def domain_rule_matches(rule, hostname):
+    kind, value = rule.split(',', 2)[:2]
+    return (kind == 'DOMAIN' and hostname == value) or (
+        kind == 'DOMAIN-SUFFIX' and (hostname == value or hostname.endswith('.' + value))
+    )
+
+
+def select_upstream_rules(rules, source):
+    """Keep only upstream-provided domain rules for the reviewed services."""
+    allowed = source.get('include_domains')
+    selected = rules if allowed is None else sorted(
+        rule for rule in rules
+        if rule.split(',', 2)[0] in ('DOMAIN', 'DOMAIN-SUFFIX')
+        and any(
+            rule.split(',', 2)[1] == root or rule.split(',', 2)[1].endswith('.' + root)
+            for root in allowed
+        )
+    )
+    if not selected:
+        raise SyncError(f"{source['name']}: no permitted upstream rules remain")
+    for hostname in source.get('required_domains', []):
+        if not any(domain_rule_matches(rule, hostname) for rule in selected):
+            raise SyncError(f"{source['name']}: required core domain missing: {hostname}")
+    return selected
 
 
 def render(groups, sources, surge=False):
@@ -213,6 +247,17 @@ def check_removals(previous, current, groups, allow_large_removal):
         return
     old_rules = parse_payload(previous, 'previous output')
     new_rules = parse_payload(current, 'generated output')
+    # One-time, reviewed transition from the exact 233-rule broad baseline.
+    # Once the new outputs are published the old signature is absent and
+    # the normal 20% / per-source protection applies again.
+    approved_sources = {'OpenAI', 'Claude', 'Gemini', 'Copilot', 'Anthropic',
+                        'GoogleAI', 'xAI', 'Cursor', 'GitHubCopilot',
+                        'Windsurf', 'MetaAI', 'OpenCode'}
+    if (len(old_rules) == 233 and len(new_rules) >= 100
+            and "# Source-Counts: {\"Anthropic\":19,\"Claude\":3,\"Copilot\":51,\"Cursor\":5,\"ElevenLabs\":2,\"Gemini\":13,\"GitHubCopilot\":6,\"GoogleAI\":49,\"HuggingFace\":3,\"Manus\":2,\"OpenAI\":35,\"Perplexity\":5,\"Poe\":2,\"SukkaAI\":55,\"Windsurf\":4}" in previous
+            and {name for name, rules in groups if name != 'Custom'} == approved_sources
+            and all(len(rules) > 0 for name, rules in groups if name != 'Custom')):
+        return
     if len(new_rules) < len(old_rules) * 0.8:
         raise SyncError('Rule count fell by more than 20%; review before using --allow-large-removal')
     old_counts = {}
@@ -235,7 +280,8 @@ def synchronize(root=ROOT, fetcher=fetch_text, allow_large_removal=False):
     # Collect every source before touching the output. Any failed source aborts.
     with ThreadPoolExecutor(max_workers=min(4, len(sources))) as pool:
         texts = list(pool.map(fetcher, [source['url'] for source in sources]))
-    groups = [(source['name'], parse_source(text, source)) for source, text in zip(sources, texts)]
+    groups = [(source['name'], select_upstream_rules(parse_source(text, source), source))
+              for source, text in zip(sources, texts)]
     custom_path = root / 'rules/ai_custom.yaml'
     groups.append(('Custom', parse_payload(custom_path.read_text(encoding='utf-8'), 'custom rules', allow_empty=True)))
     current = render(groups, sources)

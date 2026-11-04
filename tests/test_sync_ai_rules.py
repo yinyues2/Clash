@@ -272,5 +272,49 @@ class SyncTests(unittest.TestCase):
                 self.assertEqual(modified, self.output.stat().st_mtime_ns)
 
 
+    def test_reviewed_scope_excludes_generic_rules(self):
+        self.sources[0]['include_domains'] = ['openai.example']
+        self.sources[0]['required_domains'] = ['openai.example']
+        self.write_manifest()
+        self.data[self.sources[0]['url']] = ('payload:\n  - DOMAIN,openai.example\n'
+            '  - DOMAIN-SUFFIX,cdn.openai.example\n'
+            '  - DOMAIN-SUFFIX,example\n  - DOMAIN-SUFFIX,other.example\n'
+            '  - IP-ASN,20473,no-resolve\n  - DOMAIN-KEYWORD,openai\n')
+        self.run_sync()
+        self.assertIn('DOMAIN,openai.example', self.payload())
+        self.assertIn('DOMAIN-SUFFIX,cdn.openai.example', self.payload())
+        self.assertNotIn('DOMAIN-SUFFIX,example', self.payload())
+        self.assertNotIn('DOMAIN-SUFFIX,other.example', self.payload())
+        self.assertNotIn('DOMAIN-KEYWORD,openai', self.payload())
+        self.assertEqual(self.payload(), self.surge_payload())
+
+    def test_missing_required_domain_preserves_both_outputs(self):
+        self.run_sync()
+        original = self.read_outputs()
+        self.sources[0]['include_domains'] = ['openai.example']
+        self.sources[0]['required_domains'] = ['chatgpt.example']
+        self.write_manifest()
+        with self.assertRaises(sync.SyncError):
+            self.run_sync()
+        self.assert_outputs_unchanged(original)
+
+    def test_empty_custom_rules_produce_no_custom_group(self):
+        self.custom.write_text('payload: []\n', encoding='utf-8')
+        self.assertTrue(self.run_sync())
+        self.assertNotIn('DOMAIN-SUFFIX,grok.com', self.payload())
+        self.assertNotIn('# NAME: Custom', self.output.read_text())
+        self.assertCountEqual(self.payload(), self.surge_payload())
+
+    def test_invalid_domain_selector_does_not_publish(self):
+        self.run_sync()
+        original = self.read_outputs()
+        for bad in ([], ['*.example.com'], ['google..com'], [123], ['valid.com', 'valid.com']):
+            with self.subTest(bad=bad):
+                self.sources[0]['include_domains'] = bad
+                self.write_manifest()
+                with self.assertRaises(sync.SyncError):
+                    self.run_sync()
+                self.assert_outputs_unchanged(original)
+
 if __name__ == '__main__':
     unittest.main()

@@ -45,39 +45,25 @@ ChatGPT 检查任务正常成功时静默；遇到无法安全修复、需要处
 
 自定义规则应写入 `rules/ai_custom.yaml`，不要只写进生成结果；下次同步会根据输入重新生成输出。修改来源时，以现有清单结构和脚本支持的规则格式为准，不要把代理节点订阅当作规则集。
 
-## 上游与覆盖
+## 上游与覆盖（仅限已确认的 AI 服务）
 
-完整输入 URL 由 [`rules/ai_sources.json`](rules/ai_sources.json) 管理。2026-11-04 核对时选用了三个项目的 **15 份文件**。下列星数为当时近似值，是社区使用规模的参考，不代表正确率。
+2026-11-04 根据明确使用名单，改为 **12 份独立上游**、三个项目，继续仅使用一个 AI 策略组。
 
-| 项目 | 星数 | 采用的内容 |
+| 上游 | 规则 | 涵盖的目标服务 |
 | --- | --- | --- |
-| [blackmatrix7/ios_rule_script](https://github.com/blackmatrix7/ios_rule_script) | 约 28.5k | OpenAI、Claude、Gemini、Copilot 四份 `_No_Resolve.yaml` |
-| [SukkaW/Surge](https://github.com/SukkaW/Surge) | 约 4.6k | 作者发布的 [Mihomo AI classical 文本](https://ruleset.skk.moe/Clash/non_ip/ai.txt) |
-| [MetaCubeX/meta-rules-dat](https://github.com/MetaCubeX/meta-rules-dat) | 约 5.5k | Anthropic、Google Gemini、Cursor、GitHub Copilot、Windsurf、Perplexity、Poe、ElevenLabs、Hugging Face、Manus 独立 classical 列表 |
+| [blackmatrix7/ios_rule_script](https://github.com/blackmatrix7/ios_rule_script) | OpenAI、Claude、Gemini、Copilot 的 `_No_Resolve.yaml` | ChatGPT / Codex / Images、Claude / Claude Code、Gemini、微软 Copilot |
+| [MetaCubeX/meta-rules-dat](https://github.com/MetaCubeX/meta-rules-dat) | Anthropic、Google Gemini、xAI、Cursor、GitHub Copilot、Windsurf | Claude、Gemini / Nano Banana / AI Studio、Grok、Antigravity、Jules、Veo/Flow、AI 编程 |
+| [VPSDance/ai-proxy-rules](https://github.com/VPSDance/ai-proxy-rules) | Meta AI、OpenCode 专用文本 | Meta AI / Muse（包括 `muse.ai`）、OpenCode |
 
-| 用途 | 已纳入的主要服务 |
-| --- | --- |
-| 问答与搜索 | ChatGPT / OpenAI、Claude、Gemini、Microsoft Copilot、Grok、Meta AI、Perplexity、Poe |
-| 编程 | Cursor、GitHub Copilot、Windsurf / Codeium、JetBrains AI、Google Jules、Antigravity |
-| 知识与任务 | NotebookLM、Manus |
-| 图像、视频、语音与内容 | Sora、Google Flow、OpenArt、Clipdrop、ElevenLabs、Jasper |
-| 模型、API 与工作流 | Hugging Face、OpenRouter、Groq、Dify、Google AI Studio、Google Opal、Cloudflare AI Gateway |
+现有自动源清单由 [`rules/ai_sources.json`](rules/ai_sources.json) 管理；未使用 Sukka 的宽泛 AI 合集、Perplexity、Poe、ElevenLabs、Hugging Face、Manus 等不需要的规则源。
 
-此表说明规则覆盖的服务，不是热度排名；具体匹配以生成文件中的域名/IP 为准。没有导入宽泛的 `category-ai-!cn` 总集：核对时它包含 Kimi / Moonshot 等域名，与国内服务直连的原意不一致。没有新增 DeepSeek、Qwen、豆包、Kimi 的强制 AI 代理规则，也没有将整个 Notion 站点当作 Notion AI 导入。
+**无手动规则：** `rules/ai_custom.yaml` 目前为 `payload: []`。原来自己维护的 Meta AI / Muse 主域名现在由第三方专用源维护；Grok 主域名由 MetaCubeX 的 xAI 源维护。原手写的 Google Analytics、广告、共享 CDN、YouTube 图片、Apple IP 等条目并非专属 AI 请求，未混入本组。
 
-采用的是 Sukka 作者直接发布的 **Mihomo 版本**。其 Surge 原生版本多出的 `URL-REGEX` 无法与当前 Clash 域名/IP 规则等价转换，因此不把那份 Surge 原生文件作为输入，也不扩大为整个 `google.com` 规则。两端输出都来自选定的共同集合，内容一致。
+**精确范围：** 各上游原文件可能夹带无关应用或泛域名。为确保只收录点名的服务，部分来源设置 `include_domains`（上游条目选择边界，不会凭空造新规则），并设置 `required_domains` 核对核心入口。通用 CDN、宽泛 ASN、Google NotebookLM、Opal、Stitch、Grokipedia 等均被排除；新根域名需要审核才扩大范围，已允许域下新增的上游规则会自动收录。
 
-部分 AI 依赖与普通流量共用域名。例如 Sukka 的 `api.github.com` 也会将匹配的 GitHub API 流量送入 AI 策略；原手工 Google CDN / API 补充也有类似边界。本集合沿用这些明确的上游和手工规则，不承诺每条只匹配某个 AI 产品的功能请求。
+**完整性边界：** 可检查主站和主要 API 的覆盖，无法从静态规则承诺所有登录验证、安装更新、跨厂商模型 API 100% 命中。特别是 OpenCode 使用未列入的模型提供商时，这些请求会按正常分流走 `Final`，不会自动并入 AI。需要补充时，应先核对真实访问与可靠上游，不把整个公共网络服务误归类为 AI。
 
-本次 15 份远程输入共 254 条，精确去重后为 186 条。原手工 56 条中，9 条已由新上游精确提供，转交上游管理，其余 **47 条**保留。最终两份文件各有 **233 条唯一规则**，此前 127 条全部保留，新增 106 条规则条目。
-
-去重以规范化后的完整规则为准；`DOMAIN` 与 `DOMAIN-SUFFIX`、父域与子域并非相同规则，不按字符串相似度删除。后续运行自动去除输出中的重复，但不每天改写手工文件，也不将旧生成结果重新当作手工输入，以免上游删除的规则永久残留。
-
-上游来源与许可见 [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md) 和 `licenses/ai-sync/`；生成文件按来源分组标注原始 URL。来源格式默认为 `clash-yaml`，逐行文本显式使用 `classical-text`。
-
-当前验证器支持这些输入实际使用的 `DOMAIN`、`DOMAIN-SUFFIX`、`DOMAIN-KEYWORD`、`IP-CIDR`、`IP-CIDR6`、`IP-ASN`。若上游以后引入其他类型，会停止并保留旧文件，待补齐相应的正确验证后再接纳，不会跳过未知规则后发布残缺结果。
-
-这是规则集合的汇总，不会在客户端创建多个 AI 策略组。`Copilot` 来源是微软/Bing Copilot 相关集合；GitHub Copilot 由独立的 `GitHubCopilot` 来源补齐。
+初次精简从 233 条减少到约 109 条，主要是移除不使用的产品及共享域名，不是丢失已确认主站。只在此次审核过的基线迁移允许明确的数量收缩；后续继续执行异常骤减保护、完整校验、双格式一致性和无变化不提交。IP 类型若未来确由已核准上游提供，仍由脚本规范化为带 `no-resolve` 的条目。
 
 ## Surge 引用与格式
 
