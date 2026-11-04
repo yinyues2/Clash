@@ -32,11 +32,12 @@ class FinanceRulesTests(unittest.TestCase):
         a = parse_payload((self.root / "Finance_No_Resolve.yaml").read_text(), "Clash")
         b = parse_text_rules((self.root / "Surge/Finance.list").read_text(), "Surge")
         self.assertEqual(a, b)
-        self.assertGreaterEqual(len(a), 28)
+        self.assertGreaterEqual(len(a), 27)
         self.assertIn("DOMAIN-SUFFIX,bybit.com", a)
         self.assertIn("DOMAIN-SUFFIX,redotpay.com", a)
         self.assertIn("DOMAIN-SUFFIX,kast.llc", a)
         self.assertNotIn("DOMAIN-SUFFIX,unrelated-bank.example", a)
+        self.assertNotIn("DOMAIN-SUFFIX,coinex.com", a)
         self.assertFalse(self.run_sync())
 
     def test_bad_upstream_keeps_previous_files(self):

@@ -93,12 +93,6 @@
       ]
     },
     {
-      "name": "CoinEx",
-      "roots": [
-        "coinex.com"
-      ]
-    },
-    {
       "name": "Pionex",
       "roots": [
         "pionex.com"

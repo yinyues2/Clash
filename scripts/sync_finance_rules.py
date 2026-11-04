@@ -13,7 +13,7 @@ import yaml
 from sync_ai_rules import SyncError, fetch_text, normalize_rule, parse_payload, parse_text_rules
 
 ROOT = Path(__file__).resolve().parents[1]
-MIN_RULES = 28
+MIN_RULES = 27
 MAX_BYTES = 2 * 1024 * 1024
 MAX_SOURCES = 20
 ALLOWED = {"DOMAIN", "DOMAIN-SUFFIX"}

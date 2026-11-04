@@ -67,9 +67,6 @@ payload:
   # SERVICE: BingX
   - DOMAIN-SUFFIX,bingx.com
 
-  # SERVICE: CoinEx
-  - DOMAIN-SUFFIX,coinex.com
-
   # SERVICE: Pionex
   - DOMAIN-SUFFIX,pionex.com
 

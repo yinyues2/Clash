@@ -9,9 +9,10 @@
 
 ## 收录范围
 
-收录 Binance、OKX、Bybit、Gate、Bitget、MEXC、HTX、KuCoin、BingX、CoinEx（仅过渡/提现）、Pionex、Crypto.com；PayPal、RedotPay、Wise、Revolut、Payoneer、Wirex、KAST；imToken、TokenPocket、Trust Wallet、MetaMask、SafePal、OneKey、Phantom、Rabby、TronLink。Binance Wallet、OKX Wallet 和 Bitget Wallet 并入所属交易所。
+不收录已经停运或宣布停止运营的交易所。
 
-**CoinEx 已宣布停止交易所服务，提现截止 2026-12-22；暂时保留其官方域名供已有账户处理提现。该项以后需人工审核移除。**
+收录 Binance、OKX、Bybit、Gate、Bitget、MEXC、HTX、KuCoin、BingX、Pionex、Crypto.com；PayPal、RedotPay、Wise、Revolut、Payoneer、Wirex、KAST；imToken、TokenPocket、Trust Wallet、MetaMask、SafePal、OneKey、Phantom、Rabby、TronLink。Binance Wallet、OKX Wallet 和 Bitget Wallet 并入所属交易所。
+
 
 ## 来源、许可及安全边界
 
