@@ -1,0 +1,81 @@
+name: Sync Meta rules
+
+on:
+  schedule:
+    # 18:10 UTC = 02:10 Asia/Shanghai the following day.
+    # Run after AI and Google generation to minimize simultaneous pushes.
+    - cron: '10 18 * * *'
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/sync-meta-rules.yml'
+      - 'scripts/sync_meta_rules.py'
+      - 'rules/meta_sources.json'
+      - 'tests/test_sync_meta_rules.py'
+      - 'requirements-ai-sync.txt'
+
+permissions: {}
+
+concurrency:
+  group: sync-meta-rules-main
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    name: Validate and update Meta family rules
+    if: ${{ github.ref == 'refs/heads/main' }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    permissions:
+      contents: write
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+      - name: Check out the latest main branch
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: main
+          fetch-depth: 1
+          persist-credentials: true
+
+      - name: Set up Python
+        uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: '3.13'
+          cache: pip
+          cache-dependency-path: requirements-ai-sync.txt
+
+      - name: Install dependencies
+        run: python -m pip --disable-pip-version-check install -r requirements-ai-sync.txt
+
+      - name: Test Meta merger
+        run: |
+          PYTHONPATH=scripts python -m unittest discover -s tests -p 'test_sync_meta_rules.py' -v
+
+      - name: Generate Meta and Surge outputs
+        run: python scripts/sync_meta_rules.py
+
+      - name: Commit and push changed rule sets
+        timeout-minutes: 3
+        run: |
+          set -euo pipefail
+          output_files=(Meta_No_Resolve.yaml Surge/Meta.list)
+          git add -- "${output_files[@]}"
+          if git diff --cached --quiet -- "${output_files[@]}"; then
+            echo 'Meta rules unchanged; no commit.' >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+          git diff --cached --check -- "${output_files[@]}"
+          git fetch --no-tags origin refs/heads/main
+          if [ "$(git rev-parse HEAD)" != "$(git rev-parse FETCH_HEAD)" ]; then
+            echo '::error::main changed during generation; rerun to avoid stale output.'
+            exit 1
+          fi
+          git -c user.name='github-actions[bot]' \
+            -c user.email='41898282+github-actions[bot]@users.noreply.github.com' \
+            commit --only -m 'chore: update Meta rules' -- "${output_files[@]}"
+          git push origin HEAD:refs/heads/main
+          echo 'Published Meta_No_Resolve.yaml and Surge/Meta.list.' >> "$GITHUB_STEP_SUMMARY"
