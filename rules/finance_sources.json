@@ -1,0 +1,309 @@
+{
+  "services": [
+    {
+      "name": "Binance",
+      "roots": [
+        "binance.com",
+        "binance.me",
+        "binance.us",
+        "binance.cloud",
+        "binanceapi.com",
+        "binancecnt.com",
+        "bnbstatic.com",
+        "bntrace.com",
+        "binancefuture.com"
+      ]
+    },
+    {
+      "name": "OKX",
+      "roots": [
+        "okx.com",
+        "okex.com",
+        "okx-dns.com",
+        "okx-dns1.com",
+        "okx-dns2.com",
+        "oklink.com",
+        "xlayer.tech"
+      ]
+    },
+    {
+      "name": "Bybit",
+      "roots": [
+        "bybit.com",
+        "bybit.biz",
+        "bybit-global.com",
+        "bybitglobal.com",
+        "bybit.cloud",
+        "byapis.com",
+        "bytick.com",
+        "bycsi.com",
+        "bycbe.com"
+      ]
+    },
+    {
+      "name": "Gate",
+      "roots": [
+        "gate.com",
+        "gate.io",
+        "gate.tv",
+        "gateapi.io",
+        "gatedata.org",
+        "gateimg.com",
+        "gateio.live",
+        "gateio.services"
+      ]
+    },
+    {
+      "name": "Bitget",
+      "roots": [
+        "bitget.com",
+        "bitgetwallet.com"
+      ]
+    },
+    {
+      "name": "MEXC",
+      "roots": [
+        "mexc.com",
+        "mexc.co",
+        "mexcsensors.com"
+      ]
+    },
+    {
+      "name": "HTX",
+      "roots": [
+        "htx.com",
+        "huobi.com",
+        "huobi.me",
+        "huobi.pro",
+        "hbabit.com",
+        "hbfile.net"
+      ]
+    },
+    {
+      "name": "KuCoin",
+      "roots": [
+        "kucoin.com",
+        "kucoin.plus"
+      ]
+    },
+    {
+      "name": "BingX",
+      "roots": [
+        "bingx.com"
+      ]
+    },
+    {
+      "name": "CoinEx",
+      "roots": [
+        "coinex.com"
+      ]
+    },
+    {
+      "name": "Pionex",
+      "roots": [
+        "pionex.com"
+      ]
+    },
+    {
+      "name": "CryptoCom",
+      "roots": [
+        "crypto.com"
+      ]
+    },
+    {
+      "name": "PayPal",
+      "roots": [
+        "paypal.com",
+        "paypalobjects.com",
+        "paypal.me",
+        "paypal.hk",
+        "paypal.jp",
+        "paypal.com.sg",
+        "paypal.com.hk",
+        "paypal.ca",
+        "paypal.us",
+        "pypl.com"
+      ]
+    },
+    {
+      "name": "RedotPay",
+      "roots": [
+        "redotpay.com"
+      ]
+    },
+    {
+      "name": "imToken",
+      "roots": [
+        "token.im"
+      ]
+    },
+    {
+      "name": "TokenPocket",
+      "roots": [
+        "tokenpocket.pro",
+        "tp.xyz",
+        "tpwallet.io"
+      ]
+    },
+    {
+      "name": "TrustWallet",
+      "roots": [
+        "trustwallet.com",
+        "trustwalletapp.com"
+      ]
+    },
+    {
+      "name": "MetaMask",
+      "roots": [
+        "metamask.io"
+      ]
+    },
+    {
+      "name": "SafePal",
+      "roots": [
+        "safepal.com",
+        "isafepal.com"
+      ]
+    },
+    {
+      "name": "OneKey",
+      "roots": [
+        "onekey.so",
+        "onekey-asset.com",
+        "onekeycn.com"
+      ]
+    },
+    {
+      "name": "Phantom",
+      "roots": [
+        "phantom.app"
+      ]
+    },
+    {
+      "name": "Rabby",
+      "roots": [
+        "rabby.io"
+      ]
+    },
+    {
+      "name": "TronLink",
+      "roots": [
+        "tronlink.org"
+      ]
+    },
+    {
+      "name": "Wise",
+      "roots": [
+        "wise.com",
+        "transferwise.com"
+      ]
+    },
+    {
+      "name": "Revolut",
+      "roots": [
+        "revolut.com"
+      ]
+    },
+    {
+      "name": "Payoneer",
+      "roots": [
+        "payoneer.com"
+      ]
+    },
+    {
+      "name": "Wirex",
+      "roots": [
+        "wirexapp.com"
+      ]
+    },
+    {
+      "name": "KAST",
+      "roots": [
+        "kast.llc",
+        "kast.creditcard"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "name": "MetaCrypto",
+      "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/classical/category-cryptocurrency.list",
+      "format": "classical-text"
+    },
+    {
+      "name": "BM7Crypto",
+      "url": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Crypto/Crypto_No_Resolve.yaml",
+      "format": "clash-yaml"
+    },
+    {
+      "name": "MetaBinance",
+      "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/classical/binance.list",
+      "format": "classical-text"
+    },
+    {
+      "name": "MetaBybit",
+      "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/classical/bybit.list",
+      "format": "classical-text"
+    },
+    {
+      "name": "MetaOkx",
+      "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/classical/okx.list",
+      "format": "classical-text"
+    },
+    {
+      "name": "MetaGateio",
+      "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/classical/gateio.list",
+      "format": "classical-text"
+    },
+    {
+      "name": "MetaHuobi",
+      "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/classical/huobi.list",
+      "format": "classical-text"
+    },
+    {
+      "name": "MetaKucoin",
+      "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/classical/kucoin.list",
+      "format": "classical-text"
+    },
+    {
+      "name": "MetaRedotpay",
+      "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/classical/redotpay.list",
+      "format": "classical-text"
+    },
+    {
+      "name": "MetaOnekey",
+      "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/classical/onekey.list",
+      "format": "classical-text"
+    },
+    {
+      "name": "MetaTrustwallet",
+      "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/classical/trustwallet.list",
+      "format": "classical-text"
+    },
+    {
+      "name": "MetaSafepal",
+      "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/classical/safepal.list",
+      "format": "classical-text"
+    },
+    {
+      "name": "MetaWise",
+      "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/classical/wise.list",
+      "format": "classical-text"
+    },
+    {
+      "name": "MetaPaypal",
+      "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/classical/paypal.list",
+      "format": "classical-text"
+    },
+    {
+      "name": "BM7Binance",
+      "url": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Binance/Binance_No_Resolve.yaml",
+      "format": "clash-yaml"
+    },
+    {
+      "name": "BM7PayPal",
+      "url": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/PayPal/PayPal_No_Resolve.yaml",
+      "format": "clash-yaml"
+    }
+  ]
+}

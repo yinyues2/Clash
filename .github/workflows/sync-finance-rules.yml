@@ -1,0 +1,72 @@
+name: Sync Finance rules
+
+on:
+  schedule:
+    # 19:00 UTC = 03:00 China Standard Time; after AI, Google and Meta.
+    - cron: '0 19 * * *'
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/sync-finance-rules.yml'
+      - 'scripts/sync_finance_rules.py'
+      - 'rules/finance_sources.json'
+      - 'tests/test_sync_finance_rules.py'
+      - 'requirements-ai-sync.txt'
+
+permissions: {}
+
+concurrency:
+  group: sync-finance-rules-main
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    name: Check and publish Finance rules for Clash and Surge
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    permissions:
+      contents: write
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - name: Check out main
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: main
+          fetch-depth: 1
+          persist-credentials: true
+      - name: Set up Python
+        uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: '3.13'
+          cache: pip
+          cache-dependency-path: requirements-ai-sync.txt
+      - name: Install dependencies
+        run: python -m pip --disable-pip-version-check install --retries 3 --timeout 30 -r requirements-ai-sync.txt
+      - name: Run Finance tests
+        run: PYTHONPATH=scripts python -m unittest discover -s tests -p 'test_sync_finance_rules.py' -v
+      - name: Generate matching Clash and Surge lists
+        run: python scripts/sync_finance_rules.py
+      - name: Commit and push only when changed
+        timeout-minutes: 3
+        run: |
+          set -euo pipefail
+          git add -- Finance_No_Resolve.yaml Surge/Finance.list
+          if git diff --cached --quiet -- Finance_No_Resolve.yaml Surge/Finance.list; then
+            echo 'Finance unchanged; no commit.' >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+          git diff --cached --check -- Finance_No_Resolve.yaml Surge/Finance.list
+          git fetch --no-tags origin refs/heads/main
+          if [ "$(git rev-parse HEAD)" != "$(git rev-parse FETCH_HEAD)" ]; then
+            echo '::error::main changed; rerun against latest sources.'
+            exit 1
+          fi
+          git -c user.name='github-actions[bot]' \
+            -c user.email='41898282+github-actions[bot]@users.noreply.github.com' \
+            commit --only -m 'chore: update Finance rules' -- Finance_No_Resolve.yaml Surge/Finance.list
+          git push origin HEAD:refs/heads/main
+          echo 'Finance published for Clash and Surge mirror.' >> "$GITHUB_STEP_SUMMARY"
