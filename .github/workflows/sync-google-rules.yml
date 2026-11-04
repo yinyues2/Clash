@@ -1,0 +1,80 @@
+name: Sync Google rules
+
+on:
+  schedule:
+    # 17:30 UTC = 01:30 Asia/Shanghai the following day.
+    # Run after AI generation to minimize simultaneous pushes.
+    - cron: '30 17 * * *'
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/sync-google-rules.yml'
+      - 'scripts/sync_google_rules.py'
+      - 'rules/google_sources.json'
+      - 'tests/test_sync_google_rules.py'
+
+permissions: {}
+
+concurrency:
+  group: sync-google-rules-main
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    name: Validate and update Google + YouTube rules
+    if: ${{ github.ref == 'refs/heads/main' }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    permissions:
+      contents: write
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+      - name: Check out the latest main branch
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: main
+          fetch-depth: 1
+          persist-credentials: true
+
+      - name: Set up Python
+        uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: '3.13'
+          cache: pip
+          cache-dependency-path: requirements-ai-sync.txt
+
+      - name: Install dependencies
+        run: python -m pip --disable-pip-version-check install -r requirements-ai-sync.txt
+
+      - name: Test Google merger
+        run: |
+          PYTHONPATH=scripts python -m unittest discover -s tests -p 'test_sync_google_rules.py' -v
+
+      - name: Generate Google and Surge outputs
+        run: python scripts/sync_google_rules.py
+
+      - name: Commit and push changed rule sets
+        timeout-minutes: 3
+        run: |
+          set -euo pipefail
+          output_files=(Google_No_Resolve.yaml Surge/Google.list)
+          git add -- "${output_files[@]}"
+          if git diff --cached --quiet -- "${output_files[@]}"; then
+            echo 'Google rules unchanged; no commit.' >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+          git diff --cached --check -- "${output_files[@]}"
+          git fetch --no-tags origin refs/heads/main
+          if [ "$(git rev-parse HEAD)" != "$(git rev-parse FETCH_HEAD)" ]; then
+            echo '::error::main changed during generation; rerun to avoid stale output.'
+            exit 1
+          fi
+          git -c user.name='github-actions[bot]' \
+            -c user.email='41898282+github-actions[bot]@users.noreply.github.com' \
+            commit --only -m 'chore: update Google and YouTube rules' -- "${output_files[@]}"
+          git push origin HEAD:refs/heads/main
+          echo 'Published Google_No_Resolve.yaml and Surge/Google.list.' >> "$GITHUB_STEP_SUMMARY"
