@@ -12,3 +12,7 @@ payload:
   - DOMAIN-SUFFIX,2980.com              # duoyi
   - DOMAIN-SUFFIX,tailscale.com         # tailscale
   - DOMAIN-SUFFIX,kuromi.si             # own
+  - DOMAIN-SUFFIX,workbuddy.cn           # WorkBuddy CN
+  - DOMAIN-SUFFIX,codebuddy.cn           # WorkBuddy CN
+  - DOMAIN,copilot.tencent.com           # WorkBuddy CN
+  - DOMAIN,wb.tencentbuddy.com           # WorkBuddy CN
