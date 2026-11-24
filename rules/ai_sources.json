@@ -181,6 +181,67 @@
       "required_domains": [
         "opencode.ai"
       ]
+    },
+    {
+      "name": "WorkBuddyCN",
+      "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/classical/category-ai-cn.list",
+      "format": "classical-text",
+      "include_domains": [
+        "workbuddy.cn",
+        "codebuddy.cn"
+      ],
+      "required_domains": [
+        "www.workbuddy.cn",
+        "static.workbuddy.cn",
+        "codebuddy.cn"
+      ]
+    },
+    {
+      "name": "WorkBuddyTencent",
+      "url": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Tencent/Tencent_Classical_No_Resolve.yaml",
+      "include_domains": [
+        "codebuddy.work",
+        "codebuddy.info",
+        "codebuddy.net",
+        "codebuddy.pro",
+        "workbuddy.woa.com",
+        "copilot.tencent.com",
+        "staging-codebuddy.tencent.com"
+      ],
+      "narrow_parent_suffixes": true,
+      "required_domains": [
+        "codebuddy.work",
+        "www.codebuddy.work",
+        "storage.codebuddy.work",
+        "mp.workbuddy.woa.com",
+        "copilot.tencent.com"
+      ]
+    },
+    {
+      "name": "WorkBuddyGlobal",
+      "url": "https://raw.githubusercontent.com/stanasischan/surge/master/rules/WorkBuddy.list",
+      "format": "classical-text",
+      "exclude_domains": [
+        "tencentcloud.com",
+        "intl.cloud.tencent.com"
+      ],
+      "required_domains": [
+        "workbuddy.ai",
+        "codebuddy.ai",
+        "workbuddy.link",
+        "workbuddy-sandbox.com"
+      ]
+    },
+    {
+      "name": "WorkBuddyGateway",
+      "url": "https://raw.githubusercontent.com/geek5nan/rules/main/public/surge/custom/china_max/part-23.list",
+      "format": "classical-text",
+      "include_domains": [
+        "tencentbuddy.com"
+      ],
+      "required_domains": [
+        "wb.tencentbuddy.com"
+      ]
     }
   ]
 }

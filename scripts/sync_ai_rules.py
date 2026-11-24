@@ -158,7 +158,7 @@ def load_sources(path):
         raise SyncError('Expected 1 to 20 explicitly configured sources')
     names, urls = set(), set()
     for source in sources:
-        if not isinstance(source, dict) or not {'name', 'url'} <= set(source) or set(source) - {'name', 'url', 'format', 'include_domains', 'required_domains'}:
+        if not isinstance(source, dict) or not {'name', 'url'} <= set(source) or set(source) - {'name', 'url', 'format', 'include_domains', 'required_domains', 'exclude_domains', 'narrow_parent_suffixes'}:
             raise SyncError('Each source needs name, url, and an optional format')
         if not isinstance(source.get('format', 'clash-yaml'), str) or source.get('format', 'clash-yaml') not in SOURCE_FORMATS:
             raise SyncError('Unsupported source format')
@@ -167,7 +167,9 @@ def load_sources(path):
             raise SyncError('Invalid source name')
         if not isinstance(url, str):
             raise SyncError('Source URL must be a string')
-        for option in ('include_domains', 'required_domains'):
+        if 'narrow_parent_suffixes' in source and (type(source['narrow_parent_suffixes']) is not bool or not source.get('include_domains')):
+            raise SyncError(f'{name}: narrowing requires an explicit domain scope')
+        for option in ('include_domains', 'required_domains', 'exclude_domains'):
             if option in source:
                 values = source[option]
                 if not isinstance(values, list) or not 1 <= len(values) <= 100:
@@ -203,6 +205,19 @@ def select_upstream_rules(rules, source):
             for root in allowed
         )
     )
+    # Intersect broad upstream suffixes with explicitly approved service scopes.
+    # A removed upstream parent cannot silently leave behind a standalone custom rule.
+    if source.get('narrow_parent_suffixes'):
+        selected = sorted(set(selected) | {
+            'DOMAIN-SUFFIX,' + root
+            for rule in rules if rule.startswith('DOMAIN-SUFFIX,')
+            for root in allowed if root.endswith('.' + rule.split(',', 1)[1])
+        })
+    excluded = source.get('exclude_domains', [])
+    if excluded:
+        selected = [rule for rule in selected if not any(
+            rule.split(',', 2)[1] == root or rule.split(',', 2)[1].endswith('.' + root)
+            for root in excluded)]
     if not selected:
         raise SyncError(f"{source['name']}: no permitted upstream rules remain")
     for hostname in source.get('required_domains', []):

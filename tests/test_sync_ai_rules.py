@@ -316,5 +316,18 @@ class SyncTests(unittest.TestCase):
                     self.run_sync()
                 self.assert_outputs_unchanged(original)
 
+    def test_scoped_parent_suffix_and_exclusions(self):
+        source = {'name': 'WorkBuddy', 'include_domains': ['workbuddy.woa.com', 'codebuddy.work'],
+                  'narrow_parent_suffixes': True, 'required_domains': ['mp.workbuddy.woa.com']}
+        self.assertEqual(sync.select_upstream_rules([
+            'DOMAIN-SUFFIX,woa.com', 'DOMAIN-SUFFIX,codebuddy.work', 'DOMAIN-SUFFIX,tencent.com'
+        ], source), ['DOMAIN-SUFFIX,codebuddy.work', 'DOMAIN-SUFFIX,workbuddy.woa.com'])
+        with self.assertRaises(sync.SyncError):
+            sync.select_upstream_rules(['DOMAIN-SUFFIX,codebuddy.work'], source)
+        self.assertEqual(sync.select_upstream_rules([
+            'DOMAIN-SUFFIX,workbuddy.ai', 'DOMAIN,www.tencentcloud.com'
+        ], {'name': 'WorkBuddy', 'exclude_domains': ['tencentcloud.com']}),
+            ['DOMAIN-SUFFIX,workbuddy.ai'])
+
 if __name__ == '__main__':
     unittest.main()
