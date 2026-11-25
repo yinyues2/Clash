@@ -13,3 +13,5 @@ payload:
   - DOMAIN-SUFFIX,tailscale.com         # tailscale
   - DOMAIN-SUFFIX,kuromi.si             # own
   - DOMAIN-SUFFIX,yecaoyun.com           # Yecaoyun
+  - DOMAIN-SUFFIX,alicdn.com           # Alibaba CDN
+  - DOMAIN-SUFFIX,aliyuncs.com         # Alibaba Cloud
