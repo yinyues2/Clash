@@ -242,6 +242,32 @@
       "required_domains": [
         "wb.tencentbuddy.com"
       ]
+    },
+    {
+      "name": "Manus",
+      "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/classical/manus.list",
+      "format": "classical-text",
+      "include_domains": [
+        "manus.im",
+        "manuscdn.com"
+      ],
+      "required_domains": [
+        "manus.im",
+        "manuscdn.com"
+      ]
+    },
+    {
+      "name": "Cue",
+      "url": "https://raw.githubusercontent.com/viewer12/OverseasAI.list/main/rule/Surge/OverseasAI/OverseasAI.list",
+      "format": "classical-text",
+      "include_domains": [
+        "cue.im",
+        "manus.ai"
+      ],
+      "required_domains": [
+        "cue.im",
+        "manus.ai"
+      ]
     }
   ]
 }
